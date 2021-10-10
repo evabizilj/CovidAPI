@@ -1,4 +1,7 @@
-﻿using System;
+using System;
+using System.Text;
+using System.Net;
+using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -6,9 +9,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Covid.Models;
-using System.Text;
-using System.Net;
-using System.IO;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Covid.Controllers
@@ -21,7 +21,7 @@ namespace Covid.Controllers
         [HttpGet("test")] 
         public string getTest()
         {
-            return "Hello Eva.!";
+            return "Hello Eva!";
         }
 
         /*
@@ -67,7 +67,7 @@ namespace Covid.Controllers
             // LJ, CE, KR, NM, KK, KP, MB, MS, NG, PO, SG, ZA
             if (Region != null)
             {
-                startCol = getRegionIndex(rowData[0], Region); // rowData[0] ... header
+                startCol = getRegionStartIndex(rowData[0], Region); // rowData[0] ... header
 
                 // covid data starts in second row of CSV file
                 for (int i = 1; i < rowData.Length - 1; ++i)
@@ -100,7 +100,7 @@ namespace Covid.Controllers
             // Region is null (no query parameters for Region)
             else
             {
-                string[] regionsName = getRegionsName();
+                string[] regionsName = getRegionNames();
                 string[] data = null;
 
                 for (int i = 1; i < rowData.Length - 1; ++i)
@@ -115,7 +115,7 @@ namespace Covid.Controllers
 
                         for (int k = 0; k < regionsName.Length; ++k)
                         {
-                            startCol = getRegionIndex(rowData[0], regionsName[k]);
+                            startCol = getRegionStartIndex(rowData[0], regionsName[k]);
 
                             result.AppendFormat("{0}: [{1}, {2}, {3}, {4}] | ",
                                 regionsName[k].ToUpper(),   // region
@@ -148,20 +148,20 @@ namespace Covid.Controllers
             string url = "https://raw.githubusercontent.com/sledilnik/data/master/csv/region-cases.csv";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            Stream data = response.GetResponseStream();
+            Stream stream = response.GetResponseStream();
 
-            StreamReader reader = new StreamReader(data);
+            StreamReader reader = new StreamReader(stream);
             string text = reader.ReadToEnd();
-            string[] result = text.Split('\n', '\r').ToArray(); // \n is Unix, \r is Mac, \r\n is Windows 
+            string[] data = text.Split('\n', '\r').ToArray(); // \n is Unix, \r is Mac, \r\n is Windows 
 
-            // Console.WriteLine(result[result.Length]) // System.IndexOutOfRangeException
-            Array.Resize(ref result, result.Length - 1);
+            // Console.WriteLine(data[data.Length]) // System.IndexOutOfRangeException
+            Array.Resize(ref data, data.Length - 1);
 
-            return result;
+            return data;
         }
 
         // get start index (header) of region
-        public int getRegionIndex(string header, string regionName)
+        public int getRegionStartIndex(string header, string regionName)
         {
             string name = regionName.ToLower();
             string[] headerRow = header.Split(',');
@@ -184,14 +184,14 @@ namespace Covid.Controllers
             return numRegions;
         }
 
-        // get regions name
-        public string[] getRegionsName()
+        // get region names
+        public string[] getRegionNames()
         {
             string[] data = getData();
             string[] headerRow = data[0].Split(','); // header row
             string[] regionNames = new string[headerRow.Length];
             string[] columnWord = null;
-            string[] result = null;
+            string[] names = null;
 
             for (int i = 1; i < headerRow.Length; ++i)
             {
@@ -209,9 +209,9 @@ namespace Covid.Controllers
             newRegionNames.Remove("UNKNOWN");
             newRegionNames.Remove("FOREIGN");
 
-            result = newRegionNames.ToArray();
+            names = newRegionNames.ToArray();
 
-            return result;
+            return names;
         }
 
         public string getResult()
@@ -223,6 +223,7 @@ namespace Covid.Controllers
 
             string[] regionNames = new string[numRegions];
             int[] activeColumns = new int[numRegions];
+            string[] colWords = null;
 
             int iactiveCol = 0;
 
@@ -231,7 +232,7 @@ namespace Covid.Controllers
             {
                 if (headerRow[col].Contains("cases.active"))
                 {
-                    string[] colWords = headerRow[col].Split('.'); // region.kk.cases.active
+                    colWords = headerRow[col].Split('.'); // region.kk.cases.active
                     activeColumns[iactiveCol] = col;
                     regionNames[iactiveCol] = colWords[1]; // kk
                     iactiveCol++;
@@ -244,7 +245,10 @@ namespace Covid.Controllers
             {
                 string[] currentRow = data[i].Split(',');
                 for (int col = 0; col < activeColumns.Length; ++col)
-                    sumActiveColumns[col] += int.Parse(currentRow[activeColumns[col]]);
+                {
+                    int activeCol = activeColumns[col];
+                    sumActiveColumns[col] += int.Parse(currentRow[activeCol]);
+                }
             }
 
             // sort in descending order
