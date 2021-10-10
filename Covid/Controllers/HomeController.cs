@@ -96,7 +96,7 @@ namespace Covid.Controllers
                 }
             }
 
-            // Region is null (no query parameters for Region)
+            // no query parameters for Region
             else
             {
                 string[] regionsName = getRegionNames();
@@ -132,7 +132,8 @@ namespace Covid.Controllers
         }
 
         /*
-         List of regions with the sum of number of active cases in the last 7 days in descending order
+         List of regions with the sum of number of active cases in 
+         the last 7 days in descending order.
         */
 
         [Authorize]
@@ -200,10 +201,10 @@ namespace Covid.Controllers
             }
             Array.Resize(ref regionNames, regionNames.Count() - 1); // !!! (for zanka)
 
-            // delete duplicates names
+            // delete duplicates region names
             string[] regNames = regionNames.Distinct().ToArray();
 
-            // delete unvalid region names
+            // delete unvalid region names (UNKNOWN, FOREIGN)
             var newRegionNames = new List<string>(regNames);
 
             newRegionNames.Remove("UNKNOWN");
@@ -213,7 +214,14 @@ namespace Covid.Controllers
 
             return names;
         }
-
+        
+         /*
+         
+         List of regions with the sum of number of active cases in 
+         the last 7 days in descending order.
+         
+        */
+        
         public string getResult()
         {
             string[] data = getData();
