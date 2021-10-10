@@ -10,7 +10,7 @@ API exposes two RESTful endpoints:
 
 ### api/region/cases
 It supports optional query parameters (filters):
-  * Region: possible values (LJ, CE, KR, NM, KK, KP, MB, MS, NG, PO, SG, ZA)
+  * Region: possible values are LJ, CE, KR, NM, KK, KP, MB, MS, NG, PO, SG, ZA
   * To: from date
   * From: to date
 
