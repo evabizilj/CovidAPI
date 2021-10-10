@@ -27,8 +27,8 @@ namespace Covid
         {
             services.AddControllersWithViews();
 
-            // add authentication service by specifying JWT bearer scheme and 
-            // providing the authority and audience values from the appsettings.json configuration file
+            // Add authentication service by specifying JWT bearer scheme and 
+            // providing the authority and audience values from the appsettings.json configuration file.
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
