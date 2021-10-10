@@ -8,7 +8,7 @@ We use the latest data available online from COVID-19 sledilnik (https://raw.git
 
 API exposes two RESTful endpoints: 
 
-### api/region/cases
+### /api/region/cases
 It supports optional query parameters (filters):
   * Region: possible values are LJ, CE, KR, NM, KK, KP, MB, MS, NG, PO, SG, ZA
   * To: from date
