@@ -31,7 +31,6 @@ namespace Covid.Controllers
             <To> as to date
         */
 
-        [Authorize]
         [HttpGet("cases")] // api/region/cases
         public string getCases(string Region, string From, string To)
         {
@@ -136,6 +135,7 @@ namespace Covid.Controllers
          List of regions with the sum of number of active cases in the last 7 days in descending order
         */
 
+        [Authorize]
         [HttpGet("lastweek")] // api/region/lastweek
         public string getLastweek()
         {
