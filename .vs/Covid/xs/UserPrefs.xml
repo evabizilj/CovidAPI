@@ -1,0 +1,34 @@
+﻿<Properties StartupConfiguration="{48D3CDFC-CCB8-4939-99DF-63CAC9F0C4A2}|Default">
+  <MonoDevelop.Ide.ItemProperties.Covid PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Covid/Startup.cs">
+    <Files>
+      <File FileName="Covid/Controllers/HomeController.cs" Line="138" Column="1" />
+      <File FileName="Covid/appsettings.json" Line="16" Column="1" />
+      <File FileName="Covid/Startup.cs" Line="38" Column="16" />
+      <File FileName="Covid/Program.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Covid" expanded="True">
+            <Node name="Covid" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Models" expanded="True" />
+              <Node name="appsettings.json" expanded="True" />
+              <Node name="Startup.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
