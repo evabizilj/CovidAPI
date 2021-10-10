@@ -142,7 +142,7 @@ namespace Covid.Controllers
             return getResult();
         }
 
-        // get csv data from Covid Sledilnik
+        // get csv data from Covid-19 Sledilnik
         public static string[] getData()
         {
             string url = "https://raw.githubusercontent.com/sledilnik/data/master/csv/region-cases.csv";
